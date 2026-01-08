@@ -420,7 +420,9 @@ def configure(conf):
 		conf.load('mm_hook')
 
 	define_platform(conf)
-	conf.define('GIT_COMMIT_HASH', conf.env.GIT_VERSION)
+
+	# i hate this one so much
+	#conf.define('GIT_COMMIT_HASH', conf.env.GIT_VERSION)
 
 	if conf.env.TOGLES:
 		projects['game'] += ['togles']

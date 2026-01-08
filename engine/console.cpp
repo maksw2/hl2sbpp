@@ -16,6 +16,7 @@
 #if defined( _X360 )
 #include "xbox/xbox_console.h"
 #endif
+#include "sbpp_globaldef.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -1276,7 +1277,7 @@ void CConPanel::PaintBackground()
 
 	int wide = GetWide();
 	char ver[ 100 ];
-	Q_snprintf(ver, sizeof( ver ), "Source Engine %i (build %s, created for HL2SB++)", PROTOCOL_VERSION, GIT_COMMIT_HASH );
+	Q_snprintf(ver, sizeof( ver ), "Source Engine %i (%s, created for HL2SB++)", PROTOCOL_VERSION, SBPP_VERSION );
 	wchar_t unicode[ 200 ];
 	g_pVGuiLocalize->ConvertANSIToUnicode( ver, unicode, sizeof( unicode ) );
 
