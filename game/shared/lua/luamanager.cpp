@@ -50,19 +50,25 @@ LUALIB_API int luaL_optboolean (lua_State *L, int narg,
 }
 
 // @ThePixelMoon: lua uses default crap source uses its own we use source crap
-static void* SrcLuaAlloc(void* ud, void* ptr, size_t osize, size_t nsize)
+// In game/shared/lua/luamanager.cpp around line 66
+void* SrcLuaAlloc(void* ud, void* ptr, size_t osize, size_t nsize)
 {
-    if (nsize == 0)
-    {
-        if (ptr)
-            MemAlloc_Free(ptr);
-        return nullptr;
+    (void)ud;
+    
+    if (nsize == 0) {
+        if (ptr != NULL) {
+            g_pMemAlloc->Free(ptr);
+        }
+        return NULL;
     }
-
-    if (!ptr)
-        return MemAlloc_Alloc(nsize);
-
-    return g_pMemAlloc->Realloc(ptr, nsize);
+    else {
+        if (ptr == NULL) {
+            return g_pMemAlloc->Alloc(nsize);
+        }
+        else {
+            return g_pMemAlloc->Realloc(ptr, nsize);
+        }
+    }
 }
 
 #ifdef CLIENT_DLL

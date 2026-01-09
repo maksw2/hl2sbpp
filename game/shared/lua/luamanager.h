@@ -53,29 +53,29 @@
   lua_pop(L, 1);
 
 #define BEGIN_LUA_CALL_HOOK(functionName) \
-  lua_getglobal(L, "hook"); \
-  if (lua_istable(L, -1)) { \
-    lua_getfield(L, -1, "call"); \
-	if (lua_isfunction(L, -1)) { \
-	  lua_remove(L, -2); \
-	  int args = 0; \
-	  lua_pushstring(L, functionName); \
-	  lua_getglobal(L, "_GAMEMODE"); \
-	  args = 2;
+    lua_checkstack(L, 10); \
+    lua_getglobal(L, "hook"); \
+    if (lua_istable(L, -1)) { \
+        lua_getfield(L, -1, "call"); \
+        if (lua_isfunction(L, -1)) { \
+            lua_remove(L, -2); \
+            int args = 0; \
+            lua_pushstring(L, functionName); \
+            lua_getglobal(L, "_GAMEMODE"); \
+            args = 2;
 
 #define END_LUA_CALL_HOOK(nArgs, nresults) \
-      args += nArgs; \
-      if (luasrc_pcall(L, args, nresults, 0) != 0) { \
-        lua_settop(L, 0); /* error */ \
-      } \
-    } \
-    else { \
-      lua_pop(L, 2); \
-    } \
-  } \
-  else { \
-    lua_pop(L, 1); \
-  }
+            args += nArgs; \
+            if (luasrc_pcall(L, args, nresults, 0) != 0) { \
+                const char* err = lua_tostring(L, -1); \
+                lua_pop(L, 1); \
+            } \
+        } else { \
+            lua_pop(L, 2); \
+        } \
+    } else { \
+        lua_pop(L, 1); \
+    }
 
 #define BEGIN_LUA_CALL_WEAPON_METHOD(functionName) \
   lua_getref(L, m_nTableReference); \

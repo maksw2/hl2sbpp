@@ -1651,6 +1651,20 @@ void CBasePlayer::CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& f
 	// calc current FOV
 	fov = GetFOV();
 #if defined( LUA_SDK )
+	int base = lua_gettop( L );
+
+	if ( base < 0 )
+	{
+		lua_settop( L, 0 );
+		return;
+	}
+
+	if ( !lua_checkstack( L, 20 ) )
+	{
+		lua_settop( L, base );
+		return;
+	}
+
 	BEGIN_LUA_CALL_HOOK( "CalcPlayerView" );
 		lua_pushplayer( L, this );
 		lua_pushvector( L, eyeOrigin );
@@ -1658,14 +1672,19 @@ void CBasePlayer::CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& f
 		lua_pushnumber( L, fov );
 	END_LUA_CALL_HOOK( 4, 3 );
 
-	if ( lua_isuserdata( L, -3 ) && luaL_checkudata( L, -3, "Vector" ) )
-		VectorCopy( luaL_checkvector( L, -3 ), eyeOrigin );
-	if ( lua_isuserdata( L, -2 ) && luaL_checkudata( L, -2, "QAngle" ) )
-		VectorCopy( luaL_checkangle( L, -2 ), eyeAngles );
-	if ( lua_isnumber( L, -1 ) )
-		fov = luaL_checknumber( L, -1 );
+	int top = lua_gettop( L );
+	int ret = top - base;
+	if ( ret >= 3 )
+	{
+		if ( lua_isuserdata( L, base + 1 ) )
+			VectorCopy( luaL_checkvector( L, base + 1 ), eyeOrigin );
+		if ( lua_isuserdata( L, base + 2 ) )
+			VectorCopy( luaL_checkangle( L, base + 2 ), eyeAngles );
+		if ( lua_isnumber( L, base + 3 ) )
+			fov = lua_tonumber( L, base + 3 );
+	}
 
-	lua_pop( L, 3 );
+	lua_settop( L, base );
 #endif
 }
 

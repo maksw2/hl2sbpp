@@ -552,6 +552,20 @@ void ClientModeShared::OverrideView( CViewSetup *pSetup )
 bool ClientModeShared::ShouldDrawEntity(C_BaseEntity *pEnt)
 {
 #ifdef LUA_SDK
+	int base = lua_gettop( L );
+
+	if ( base < 0 )
+	{
+		lua_settop( L, 0 );
+		return true;
+	}
+
+	if ( !lua_checkstack( L, 20 ) )
+	{
+		lua_settop( L, base );
+		return true;
+	}
+
 	BEGIN_LUA_CALL_HOOK( "ShouldDrawEntity" );
 		lua_pushentity( L, pEnt );
 	END_LUA_CALL_HOOK( 1, 1 );
@@ -568,6 +582,20 @@ bool ClientModeShared::ShouldDrawEntity(C_BaseEntity *pEnt)
 bool ClientModeShared::ShouldDrawParticles( )
 {
 #ifdef LUA_SDK
+	int base = lua_gettop( L );
+
+	if ( base < 0 )
+	{
+		lua_settop( L, 0 );
+		return true;
+	}
+
+	if ( !lua_checkstack( L, 20 ) )
+	{
+		lua_settop( L, base );
+		return true;
+	}
+
 	BEGIN_LUA_CALL_HOOK( "ShouldDrawParticles" );
 	END_LUA_CALL_HOOK( 0, 1 );
 
@@ -621,6 +649,20 @@ bool ClientModeShared::OverrideViewAngles( void )
 bool ClientModeShared::ShouldDrawViewModel()
 {
 #ifdef LUA_SDK
+	int base = lua_gettop( L );
+
+	if ( base < 0 )
+	{
+		lua_settop( L, 0 );
+		return true;
+	}
+
+	if ( !lua_checkstack( L, 20 ) )
+	{
+		lua_settop( L, base );
+		return true;
+	}
+
 	BEGIN_LUA_CALL_HOOK( "ShouldDrawViewModel" );
 	END_LUA_CALL_HOOK( 0, 1 );
 
@@ -633,6 +675,20 @@ bool ClientModeShared::ShouldDrawViewModel()
 bool ClientModeShared::ShouldDrawDetailObjects( )
 {
 #ifdef LUA_SDK
+	int base = lua_gettop( L );
+
+	if ( base < 0 )
+	{
+		lua_settop( L, 0 );
+		return true;
+	}
+
+	if ( !lua_checkstack( L, 20 ) )
+	{
+		lua_settop( L, base );
+		return true;
+	}
+
 	BEGIN_LUA_CALL_HOOK( "ShouldDrawDetailObjects" );
 	END_LUA_CALL_HOOK( 0, 1 );
 
@@ -677,6 +733,20 @@ bool ClientModeShared::ShouldDrawCrosshair( void )
 bool ClientModeShared::ShouldDrawLocalPlayer( C_BasePlayer *pPlayer )
 {
 #ifdef LUA_SDK
+	int base = lua_gettop( L );
+
+	if ( base < 0 )
+	{
+		lua_settop( L, 0 );
+		return true;
+	}
+
+	if ( !lua_checkstack( L, 20 ) )
+	{
+		lua_settop( L, base );
+		return true;
+	}
+
 	BEGIN_LUA_CALL_HOOK( "ShouldDrawLocalPlayer" );
 		lua_pushplayer( L, pPlayer );
 	END_LUA_CALL_HOOK( 1, 1 );
@@ -696,13 +766,26 @@ bool ClientModeShared::ShouldDrawLocalPlayer( C_BasePlayer *pPlayer )
 //-----------------------------------------------------------------------------
 bool ClientModeShared::ShouldDrawFog( void )
 {
-/*
 #ifdef LUA_SDK
+	int base = lua_gettop( L );
+
+	if ( base < 0 )
+	{
+		lua_settop( L, 0 );
+		return true;
+	}
+
+	if ( !lua_checkstack( L, 20 ) )
+	{
+		lua_settop( L, base );
+		return true;
+	}
+
 	BEGIN_LUA_CALL_HOOK( "ShouldDrawFog" );
 	END_LUA_CALL_HOOK( 0, 1 );
 
 	RETURN_LUA_BOOLEAN();
-#endif*/
+#endif
 
 	return true;
 }
