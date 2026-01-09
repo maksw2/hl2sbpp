@@ -24,8 +24,6 @@
 #include "materialsystem/imesh.h"
 #include "tier1/utlvector.h"
 
-#include "debugoverlay_shared.h"
-
 // HACK: future me please use include dirs for this
 #include "../../menu/stb_image.h"
 
@@ -130,6 +128,8 @@ void CLoadingScreen::CreateMaterials()
 
     KeyValues *pVMTKeyValues = new KeyValues("UnlitGeneric");
     pVMTKeyValues->SetInt( "$translucent", 1 );
+    pVMTKeyValues->SetInt("$vertexalpha", 1);
+    pVMTKeyValues->SetInt("$vertexcolor", 1);
     pVMTKeyValues->SetInt( "$ignorez", 1 );
     pVMTKeyValues->SetInt( "$nofog", 1 );
     pVMTKeyValues->SetInt( "$no_fullbright", 1 );
@@ -144,7 +144,8 @@ void CLoadingScreen::CreateMaterials()
         KeyValues* pVMTKeyValuesLogo = new KeyValues("UnlitGeneric");
         pVMTKeyValuesLogo->SetInt("$translucent", 1);
         pVMTKeyValuesLogo->SetInt("$ignorez", 1);
-        pVMTKeyValuesLogo->SetInt("$translucent", 1);
+        pVMTKeyValuesLogo->SetInt("$vertexalpha", 1);
+        pVMTKeyValuesLogo->SetInt("$vertexcolor", 1);
         pVMTKeyValuesLogo->SetString("$basetexture", "introscreen/main");
         pVMTKeyValuesLogo->SetInt("$srgb", 1);
         pVMTKeyValuesLogo->SetString("$color_space", "srgb");
