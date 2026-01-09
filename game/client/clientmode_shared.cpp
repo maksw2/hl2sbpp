@@ -696,12 +696,13 @@ bool ClientModeShared::ShouldDrawLocalPlayer( C_BasePlayer *pPlayer )
 //-----------------------------------------------------------------------------
 bool ClientModeShared::ShouldDrawFog( void )
 {
+/*
 #ifdef LUA_SDK
 	BEGIN_LUA_CALL_HOOK( "ShouldDrawFog" );
 	END_LUA_CALL_HOOK( 0, 1 );
 
 	RETURN_LUA_BOOLEAN();
-#endif
+#endif*/
 
 	return true;
 }
