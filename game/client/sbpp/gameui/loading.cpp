@@ -128,8 +128,6 @@ void CLoadingScreen::CreateMaterials()
 
     KeyValues *pVMTKeyValues = new KeyValues("UnlitGeneric");
     pVMTKeyValues->SetInt( "$translucent", 1 );
-    pVMTKeyValues->SetInt("$vertexalpha", 1);
-    pVMTKeyValues->SetInt("$vertexcolor", 1);
     pVMTKeyValues->SetInt( "$ignorez", 1 );
     pVMTKeyValues->SetInt( "$nofog", 1 );
     pVMTKeyValues->SetInt( "$no_fullbright", 1 );
@@ -142,10 +140,9 @@ void CLoadingScreen::CreateMaterials()
     if (m_pLogoTexture)
     {
         KeyValues* pVMTKeyValuesLogo = new KeyValues("UnlitGeneric");
-        pVMTKeyValuesLogo->SetInt("$translucent", 1);
+        pVMTKeyValuesLogo->SetInt("$alphatest", 1);
+        pVMTKeyValuesLogo->SetFloat("$alphatestreference", 0.5f);
         pVMTKeyValuesLogo->SetInt("$ignorez", 1);
-        pVMTKeyValuesLogo->SetInt("$vertexalpha", 1);
-        pVMTKeyValuesLogo->SetInt("$vertexcolor", 1);
         pVMTKeyValuesLogo->SetString("$basetexture", "introscreen/main");
         pVMTKeyValuesLogo->SetInt("$srgb", 1);
         pVMTKeyValuesLogo->SetString("$color_space", "srgb");

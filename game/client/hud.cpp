@@ -290,6 +290,7 @@ void CHudElement::SetHiddenBits( int iBits )
 //-----------------------------------------------------------------------------
 bool CHudElement::ShouldDraw( void )
 {
+/*
 #if defined ( LUA_SDK )
 	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
 	if ( pPlayer )
@@ -300,7 +301,7 @@ bool CHudElement::ShouldDraw( void )
 
 		RETURN_LUA_BOOLEAN();
 	}
-#endif
+#endif*/
 
 	bool bShouldDraw = ( !gHUD.IsHidden( m_iHiddenBits ) );
 
