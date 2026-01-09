@@ -75,7 +75,7 @@ CServerBrowserDialog::CServerBrowserDialog(vgui::Panel *parent) : Frame(parent, 
 	m_pInternetGames = new CInternetGames(this);
 	m_pFavorites = new CFavoriteGames(this);
 	m_pHistory = new CHistoryGames(this);
-	m_pSpectateGames = new CSpectateGames(this);
+	//m_pSpectateGames = new CSpectateGames(this);
 	m_pLanGames = new CLanGames(this);
 
 	int w = 640; int h = 384;
@@ -96,7 +96,7 @@ CServerBrowserDialog::CServerBrowserDialog(vgui::Panel *parent) : Frame(parent, 
 	m_pTabPanel->AddPage(m_pInternetGames, "#ServerBrowser_InternetTab");
 	m_pTabPanel->AddPage(m_pFavorites, "#ServerBrowser_FavoritesTab");
 	m_pTabPanel->AddPage(m_pHistory, "#ServerBrowser_HistoryTab");
-	m_pTabPanel->AddPage(m_pSpectateGames, "#ServerBrowser_SpectateTab");
+	//m_pTabPanel->AddPage(m_pSpectateGames, "#ServerBrowser_SpectateTab");
 	m_pTabPanel->AddPage(m_pLanGames, "#ServerBrowser_LanTab");
 
 	m_pTabPanel->AddActionSignalTarget(this);
@@ -110,11 +110,11 @@ CServerBrowserDialog::CServerBrowserDialog(vgui::Panel *parent) : Frame(parent, 
 	// load current tab
 	const char *gameList = m_pSavedData->GetString("GameList");
 
-	if (!Q_stricmp(gameList, "spectate"))
+	/*if (!Q_stricmp(gameList, "spectate"))
 	{
 		m_pTabPanel->SetActivePage(m_pSpectateGames);
 	}
-	else 
+	else */
 	if (!Q_stricmp(gameList, "favorites"))
 	{
 		m_pTabPanel->SetActivePage(m_pFavorites);
@@ -258,11 +258,11 @@ void CServerBrowserDialog::SaveUserData()
 	m_pSavedData->LoadFromFile( g_pFullFileSystem, "ServerBrowser.vdf", "CONFIG");
 
 	// set the current tab
-	if (m_pGameList == m_pSpectateGames)
+	/*if (m_pGameList == m_pSpectateGames)
 	{
 		m_pSavedData->SetString("GameList", "spectate");
 	}
-	else
+	else*/
 	if (m_pGameList == m_pFavorites)
 	{
 		m_pSavedData->SetString("GameList", "favorites");
@@ -532,7 +532,7 @@ void CServerBrowserDialog::OnActiveGameName( KeyValues *pKV )
 void CServerBrowserDialog::ReloadFilterSettings()
 {
 	m_pInternetGames->LoadFilterSettings();
-	m_pSpectateGames->LoadFilterSettings();
+	//m_pSpectateGames->LoadFilterSettings();
 	m_pFavorites->LoadFilterSettings();
 	m_pLanGames->LoadFilterSettings();
 	m_pHistory->LoadFilterSettings();
@@ -587,10 +587,10 @@ void CServerBrowserDialog::OnConnectToGame( KeyValues *pMessageValues )
 	{
 		iQuickListBitField |= ( 1 << 1 );
 	}
-	if ( m_pSpectateGames && m_pSpectateGames->IsQuickListButtonChecked() )
+	/*if ( m_pSpectateGames && m_pSpectateGames->IsQuickListButtonChecked() )
 	{
 		iQuickListBitField |= ( 1 << 2 );
-	}
+	}*/
 	if ( m_pHistory && m_pHistory->IsQuickListButtonChecked() )
 	{
 		iQuickListBitField |= ( 1 << 3 );
@@ -639,7 +639,7 @@ void CServerBrowserDialog::OnDisconnectFromGame( void )
 void CServerBrowserDialog::OnLoadingStarted( void )
 {
 	m_pInternetGames->OnLoadingStarted();
-	m_pSpectateGames->OnLoadingStarted();
+	//m_pSpectateGames->OnLoadingStarted();
 	m_pFavorites->OnLoadingStarted();
 	m_pLanGames->OnLoadingStarted();
 	m_pHistory->OnLoadingStarted();
