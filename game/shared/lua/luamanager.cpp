@@ -55,12 +55,12 @@ static void* SrcLuaAlloc(void* ud, void* ptr, size_t osize, size_t nsize)
     if (nsize == 0)
     {
         if (ptr)
-            g_pMemAlloc->Free(ptr);
+            MemAlloc_Free(ptr);
         return nullptr;
     }
 
     if (!ptr)
-        return g_pMemAlloc->Alloc(nsize);
+        return MemAlloc_Alloc(nsize);
 
     return g_pMemAlloc->Realloc(ptr, nsize);
 }
@@ -220,7 +220,7 @@ void luasrc_setmodulepaths(lua_State *L) {
 
 #ifdef CLIENT_DLL
 void luasrc_init_gameui (void) {
-  LGameUI = lua_newstate(SrcLuaAlloc, nullptr);
+  LGameUI = luaL_newstate(); // @ThePixelMoon: for gameui dont do custom alloc
 
   luaL_openlibs(LGameUI);
   base_open(LGameUI);
