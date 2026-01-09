@@ -443,7 +443,7 @@ CDialogGameInfo *CServerBrowserDialog::OpenGameInfoDialog( IGameList *gameList, 
 	CDialogGameInfo *gameDialog = new CDialogGameInfo( NULL, pServer->m_NetAdr.GetIPHostByteOrder(), 0, pServer->m_NetAdr.GetPort(), gameList->GetConnectCode() );
 	gameDialog->SetParent(GetVParent());
 	gameDialog->AddActionSignalTarget(this);
-	gameDialog->Run( pServer->GetName() );
+	gameDialog->Run( pServer->m_szServerName );
 	int i = m_GameInfoDialogs.AddToTail();
 	m_GameInfoDialogs[i] = gameDialog;
 	return gameDialog;
