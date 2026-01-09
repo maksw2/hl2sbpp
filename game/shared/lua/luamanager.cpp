@@ -6,6 +6,7 @@
 
 #include "cbase.h"
 #include "filesystem.h"
+#include "lua.h"
 #ifndef CLIENT_DLL
 #include "gameinterface.h"
 #endif
@@ -22,6 +23,7 @@
 #include "luacachefile.h"
 #include "tier1/lconvar.h"
 #include "licvar.h"
+#include "tier0/memalloc.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -47,6 +49,21 @@ LUALIB_API int luaL_optboolean (lua_State *L, int narg,
   return luaL_opt(L, luaL_checkboolean, narg, def);
 }
 
+// @ThePixelMoon: lua uses default crap source uses its own we use source crap
+static void* SrcLuaAlloc(void* ud, void* ptr, size_t osize, size_t nsize)
+{
+    if (nsize == 0)
+    {
+        if (ptr)
+            g_pMemAlloc->Free(ptr);
+        return nullptr;
+    }
+
+    if (!ptr)
+        return g_pMemAlloc->Alloc(nsize);
+
+    return g_pMemAlloc->Realloc(ptr, nsize);
+}
 
 #ifdef CLIENT_DLL
 lua_State *LGameUI;
@@ -203,7 +220,7 @@ void luasrc_setmodulepaths(lua_State *L) {
 
 #ifdef CLIENT_DLL
 void luasrc_init_gameui (void) {
-  LGameUI = luaL_newstate();
+  LGameUI = lua_newstate(SrcLuaAlloc, nullptr);
 
   luaL_openlibs(LGameUI);
   base_open(LGameUI);
@@ -237,7 +254,7 @@ void luasrc_init (void) {
 	  return;
   g_bLuaInitialized = true;
 
-  L = lua_open();
+  L = lua_newstate(SrcLuaAlloc, nullptr);
 
   luaL_openlibs(L);
   base_open(L);
