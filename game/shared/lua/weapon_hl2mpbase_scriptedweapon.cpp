@@ -886,10 +886,15 @@ const FileWeaponInfo_t &CHL2MPScriptedWeapon::GetWpnData( void ) const
 
 const char *CHL2MPScriptedWeapon::GetViewModel( int ) const
 {
-	if (m_nTableReference == LUA_NOREF)
-		return m_pLuaWeaponInfo->szViewModel;
+    if (m_nTableReference == LUA_NOREF)
+    {
+        const char *model = m_pLuaWeaponInfo->szViewModel;
+        return (model && model[0]) ? model : NULL;
+    }
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->szViewModel;
 
@@ -902,10 +907,15 @@ const char *CHL2MPScriptedWeapon::GetViewModel( int ) const
 
 const char *CHL2MPScriptedWeapon::GetWorldModel( void ) const
 {
-	if (m_nTableReference == LUA_NOREF)
-		return m_pLuaWeaponInfo->szWorldModel;
+    if (m_nTableReference == LUA_NOREF)
+    {
+        const char *model = m_pLuaWeaponInfo->szWorldModel;
+        return (model && model[0]) ? model : NULL;
+    }
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->szWorldModel;
 
@@ -922,6 +932,8 @@ const char *CHL2MPScriptedWeapon::GetAnimPrefix( void ) const
 		return m_pLuaWeaponInfo->szAnimationPrefix;
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->szAnimationPrefix;
 
@@ -938,6 +950,8 @@ const char *CHL2MPScriptedWeapon::GetPrintName( void ) const
 		return m_pLuaWeaponInfo->szPrintName;
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->szPrintName;
 
@@ -1114,6 +1128,8 @@ bool CHL2MPScriptedWeapon::DrawAmmo() const
 		return m_pLuaWeaponInfo->iconAmmo != nullptr;
 
 #if defined (LUA_SDK)
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->iconAmmo != nullptr;
 
@@ -1131,6 +1147,8 @@ int CHL2MPScriptedWeapon::GetWeight( void ) const
 		return m_pLuaWeaponInfo->iWeight;
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->iWeight;
 
@@ -1214,6 +1232,8 @@ bool CHL2MPScriptedWeapon::IsSpawnable( void ) const
 		return false;
 
 #ifdef LUA_SDK
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return false;
 
@@ -1231,6 +1251,8 @@ int CHL2MPScriptedWeapon::GetWeaponFlags( void ) const
 		return m_pLuaWeaponInfo->iFlags;
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->iFlags;
 
@@ -1247,6 +1269,8 @@ int CHL2MPScriptedWeapon::GetSlot( void ) const
 		return m_pLuaWeaponInfo->iSlot;
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->iSlot;
 
@@ -1263,6 +1287,8 @@ int CHL2MPScriptedWeapon::GetPosition( void ) const
 		return m_pLuaWeaponInfo->iPosition;
 
 #if defined ( LUA_SDK )
+	int base = lua_gettop(L);
+
 	if ( !PushTableFromRef( L, m_nTableReference ) )
 		return m_pLuaWeaponInfo->iPosition;
 

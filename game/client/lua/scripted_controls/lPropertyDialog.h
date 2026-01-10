@@ -55,6 +55,7 @@ public:
 }; // vgui
 
 #define BEGIN_LUA_CALL_PROPERTYDIALOG_METHOD(functionName) \
+  int base = lua_gettop(L); \
   if (m_nTableReference >= 0) { \
     lua_getref(m_lua_State, m_nTableReference); \
     lua_getfield(m_lua_State, -1, functionName); \

@@ -266,7 +266,8 @@ void CBaseCombatWeapon::Spawn( void )
 
 	GiveDefaultAmmo();
 
-	if ( GetWorldModel() )
+	// @ThePixelMoon: valve shitty code
+	if ( GetWorldModel() && GetWorldModel()[0] != '\0' )
 	{
 		SetModel( GetWorldModel() );
 	}

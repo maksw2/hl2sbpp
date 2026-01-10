@@ -24,6 +24,8 @@ def build(bld):
 
 	includes = [
 		'.',
+		'../',
+		'../../common',
 		'../../public',
 		'../../public/tier0',
 		'../../public/tier1',

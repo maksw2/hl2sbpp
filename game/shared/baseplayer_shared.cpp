@@ -1651,20 +1651,6 @@ void CBasePlayer::CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& f
 	// calc current FOV
 	fov = GetFOV();
 #if defined( LUA_SDK )
-	int base = lua_gettop( L );
-
-	if ( base < 0 )
-	{
-		lua_settop( L, 0 );
-		return;
-	}
-
-	if ( !lua_checkstack( L, 20 ) )
-	{
-		lua_settop( L, base );
-		return;
-	}
-
 	BEGIN_LUA_CALL_HOOK( "CalcPlayerView" );
 		lua_pushplayer( L, this );
 		lua_pushvector( L, eyeOrigin );
@@ -1684,7 +1670,7 @@ void CBasePlayer::CalcPlayerView( Vector& eyeOrigin, QAngle& eyeAngles, float& f
 			fov = lua_tonumber( L, base + 3 );
 	}
 
-	lua_settop( L, base );
+	lua_settop(L, base);
 #endif
 }
 

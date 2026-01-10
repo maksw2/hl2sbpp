@@ -52,32 +52,51 @@
   lua_setfield(L, -2, lib); \
   lua_pop(L, 1);
 
-#define BEGIN_LUA_CALL_HOOK(functionName) \
-    lua_checkstack(L, 10); \
-    lua_getglobal(L, "hook"); \
-    if (lua_istable(L, -1)) { \
-        lua_getfield(L, -1, "call"); \
-        if (lua_isfunction(L, -1)) { \
-            lua_remove(L, -2); \
-            int args = 0; \
-            lua_pushstring(L, functionName); \
-            lua_getglobal(L, "_GAMEMODE"); \
-            args = 2;
+#define BEGIN_LUA_CALL_HOOK(functionName)               \
+    int base = lua_gettop(L);                           \
+    bool __lua_hook_ok = true;                          \
+                                                        \
+    if (base < 0) {                                    \
+        lua_settop(L, 0);                               \
+        __lua_hook_ok = false;                          \
+    }                                                   \
+                                                        \
+    if (__lua_hook_ok && !lua_checkstack(L, 20)) {      \
+        lua_settop(L, base);                            \
+        __lua_hook_ok = false;                          \
+    }                                                   \
+                                                        \
+    if (__lua_hook_ok) {                                \
+        lua_getglobal(L, "hook");                       \
+        if (lua_istable(L, -1)) {                       \
+            lua_getfield(L, -1, "call");                \
+            if (lua_isfunction(L, -1)) {                \
+                lua_remove(L, -2);                      \
+                int args = 0;                           \
+                lua_pushstring(L, functionName);        \
+                lua_getglobal(L, "_GAMEMODE");          \
+                args = 2;
 
-#define END_LUA_CALL_HOOK(nArgs, nresults) \
-            args += nArgs; \
-            if (luasrc_pcall(L, args, nresults, 0) != 0) { \
-                const char* err = lua_tostring(L, -1); \
-                lua_pop(L, 1); \
-            } \
-        } else { \
-            lua_pop(L, 2); \
-        } \
-    } else { \
-        lua_pop(L, 1); \
-    }
+#define END_LUA_CALL_HOOK(nArgs, nResults)                       \
+                args += (nArgs);                                \
+                if (luasrc_pcall(L, args, nResults, 0) != 0) {  \
+                    const char* err = lua_tostring(L, -1);     \
+                    lua_pop(L, 1);                              \
+                    __lua_hook_ok = false;                      \
+                }                                               \
+            } else {                                            \
+                lua_pop(L, 2);                                  \
+                __lua_hook_ok = false;                          \
+            }                                                   \
+        } else {                                                \
+            lua_pop(L, 1);                                      \
+            __lua_hook_ok = false;                              \
+        }                                                       \
+    }                                                           \
+    if (nResults == 0) { lua_settop(L, base); }
 
 #define BEGIN_LUA_CALL_WEAPON_METHOD(functionName) \
+  int base = lua_gettop(L); \
   lua_getref(L, m_nTableReference); \
   lua_getfield(L, -1, functionName); \
   lua_remove(L, -2); \
@@ -94,6 +113,7 @@
     lua_pop(L, 1);
 
 #define BEGIN_LUA_CALL_WEAPON_HOOK(functionName, pWeapon) \
+  int base = lua_gettop(L); \
   if (pWeapon->IsScripted()) { \
     lua_getref(L, pWeapon->m_nTableReference); \
     lua_getfield(L, -1, functionName); \
@@ -108,6 +128,7 @@
   }
 
 #define BEGIN_LUA_CALL_VEHICLE_METHOD(functionName) \
+  int base = lua_gettop(L); \
   lua_getref(L, GetFourWheelVehicle()->m_nTableReference); \
   lua_getfield(L, -1, functionName); \
   lua_remove(L, -2); \
@@ -124,6 +145,7 @@
     lua_pop(L, 1);
 
 #define BEGIN_LUA_CALL_ENTITY_METHOD(functionName) \
+  int base = lua_gettop(L); \
   lua_getref(L, m_nTableReference); \
   lua_getfield(L, -1, functionName); \
   lua_remove(L, -2); \
@@ -140,6 +162,7 @@
     lua_pop(L, 1);
 
 #define BEGIN_LUA_CALL_TRIGGER_METHOD(functionName) \
+  int base = lua_gettop(L); \
   lua_getref(L, m_nTableReference); \
   lua_getfield(L, -1, functionName); \
   lua_remove(L, -2); \
@@ -156,6 +179,7 @@
     lua_pop(L, 1);
 
 #define BEGIN_LUA_CALL_PANEL_METHOD(functionName) \
+  int base = lua_gettop(m_lua_State); \
   if (m_nTableReference >= 0) { \
     lua_getref(m_lua_State, m_nTableReference); \
     lua_getfield(m_lua_State, -1, functionName); \
@@ -198,15 +222,11 @@
   }
 
 #define RETURN_LUA_BOOLEAN() \
-  if (lua_gettop(L) == 1) { \
-    if (lua_isboolean(L, -1)) { \
-	  bool res = (bool)luaL_checkboolean(L, -1); \
-	  lua_pop(L, 1); \
-	  return res; \
-	} \
-    else \
-	  lua_pop(L, 1); \
-  }
+    if (lua_gettop(L) == 1 && lua_isboolean(L, -1)) { \
+        bool res = (bool)lua_toboolean(L, -1); \
+        lua_pop(L, 1); \
+        return res; \
+    }
 
 #define RETURN_LUA_PANEL_BOOLEAN() \
   if (lua_gettop(m_lua_State) == 1) { \

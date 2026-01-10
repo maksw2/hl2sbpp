@@ -2797,6 +2797,8 @@ void C_BaseEntity::OnStoreLastNetworkedValue()
 	{
 		VarMapEntry_t *e = &m_VarMap.m_Entries[ i ];
 		IInterpolatedVar *watcher = e->watcher;
+		if (!watcher)
+			continue;
 
 		int type = watcher->GetType();
 

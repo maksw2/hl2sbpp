@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -60,6 +60,7 @@ public:
 } // namespace vgui
 
 #define BEGIN_LUA_CALL_PROPERTYPAGE_METHOD(functionName) \
+  int base = lua_gettop(L); \
   if (m_nTableReference >= 0) { \
     lua_getref(m_lua_State, m_nTableReference); \
     lua_getfield(m_lua_State, -1, functionName); \
