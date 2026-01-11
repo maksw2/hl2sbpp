@@ -22,7 +22,7 @@ using namespace vgui;
 
 class MapListPanel : public vgui::PanelListPanel
 {
-	DECLARE_CLASS( MapListPanel, vgui::PanelListPanel );
+	DECLARE_CLASS_SIMPLE( MapListPanel, vgui::PanelListPanel );
 
 public:
 	MapListPanel( vgui::Panel *parent, const char *pName );
@@ -43,7 +43,7 @@ private:
 
 class GameMapsPanel : public MapListPanel
 {
-	DECLARE_CLASS( GameMapsPanel, MapListPanel );
+	DECLARE_CLASS_SIMPLE( GameMapsPanel, MapListPanel );
 
 public:
 	GameMapsPanel( vgui::Panel *parent, const char *pName );
@@ -51,7 +51,7 @@ public:
 
 class ServerSettingsPanel : public vgui::PanelListPanel
 {
-	DECLARE_CLASS( ServerSettingsPanel, vgui::PanelListPanel );
+	DECLARE_CLASS_SIMPLE( ServerSettingsPanel, vgui::PanelListPanel );
 
 public:
 	ServerSettingsPanel( vgui::Panel *parent, const char *pName );
@@ -71,7 +71,7 @@ public:
 
 class MapList : public vgui::PropertyDialog
 {
-	DECLARE_CLASS( MapList, vgui::PropertyDialog );
+	DECLARE_CLASS_SIMPLE( MapList, vgui::PropertyDialog );
 
 public:
 	MapList( vgui::VPANEL *parent, const char *pName );
