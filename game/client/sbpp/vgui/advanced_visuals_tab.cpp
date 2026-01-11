@@ -8,6 +8,9 @@
 #include "advanced_visuals_tab.h"
 #include "fmtstr.h"
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
+
 CAdvancedOptionsVisuals::CAdvancedOptionsVisuals( Panel *parent, const char *panelName ) : BaseClass( parent, panelName )
 {
 	m_pFPSCheckbox = new vgui::CheckButton( this, "FPSCheckbox", "Show FPS" );

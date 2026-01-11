@@ -7,6 +7,9 @@
 #include "cbase.h"
 #include "advanced_gameplay_tab.h"
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
+
 CAdvancedOptionsGameplay::CAdvancedOptionsGameplay( Panel *parent, const char *panelName ) : BaseClass( parent, panelName )
 {
 }

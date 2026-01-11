@@ -19,6 +19,9 @@
 #include "tier1/utlvector.h"
 #include <list>
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
+
 using namespace vgui;
 
 ConVar selmap( "selmap", "", FCVAR_DEVELOPMENTONLY );

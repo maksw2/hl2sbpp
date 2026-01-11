@@ -11,6 +11,9 @@
 #include "materialsystem/imaterialvar.h"
 #include "materialsystem/imaterialproxy.h"
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
+
 #if defined( CLIENT_DLL )
 #define CHandViewModel C_HandViewModel
 #endif

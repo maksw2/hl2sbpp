@@ -10,6 +10,9 @@
 #include "filesystem.h"
 #include "fmtstr.h"
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
+
 using namespace vgui;
 
 ConVar cl_showadvancedoptpanel( "cl_showadvancedoptpanel", "0", FCVAR_CLIENTDLL, "Sets the state of AdvancedOptPanel <state>" );

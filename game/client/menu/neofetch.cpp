@@ -9,6 +9,9 @@
 #include "filesystem.h"
 #include "tier0/platform.h"
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
+
 Color clr = Color( 255, 255, 0, 255 );
 
 #ifdef ANDROID

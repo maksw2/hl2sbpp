@@ -8,6 +8,9 @@
 #include "vgui_imagebutton.h"
 #include "vgui/MouseCode.h"
 
+// memdbgon must be the last include file in a .cpp file!!!
+#include "tier0/memdbgon.h"
+
 using namespace vgui;
 
 ImageButton::ImageButton( vgui::Panel *parent, const char *panelName, const char *normalImage, const char *mouseOverImage, const char *mouseClickImage, const char *pCmd ) : ImagePanel( parent, panelName )
