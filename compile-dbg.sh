@@ -1,3 +1,3 @@
 #!/bin/bash
 ./waf configure -T debug --use-ccache --togles --64bits --prefix=../game --build-games=hl2sbpp --disable-warns
-./waf build install -p -vv
+./waf build install -p -vv -j$(nproc)
