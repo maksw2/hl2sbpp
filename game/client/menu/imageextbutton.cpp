@@ -8,6 +8,7 @@
 #include "vgui/IInput.h"
 #include "vgui/ISurface.h"
 #include "tier0/memdbgon.h"
+#include "tier1/KeyValues.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
